@@ -1,31 +1,25 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import nodePolyfills from 'rollup-plugin-polyfill-node';
-import pkg from './package.json';
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import nodePolyfills from "rollup-plugin-polyfill-node";
+import pkg from "./package.json";
 
 export default [
   {
-    input: 'index.js',
+    input: "index.js",
     output: {
-      name: 'content-disposition',
+      name: "content-disposition",
       file: pkg.browser,
-      format: 'umd',
+      format: "umd",
     },
-    plugins: [
-      nodePolyfills(),
-      resolve(),
-      commonjs(),
-    ],
+    plugins: [nodePolyfills(), resolve(), commonjs()],
   },
   {
-    input: 'index.js',
-    external: 'safe-buffer',
+    input: "index.js",
+    external: "safe-buffer",
     output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' },
+      { file: pkg.main, format: "cjs" },
+      { file: pkg.module, format: "es" },
     ],
-    plugins: [
-      nodePolyfills(),
-    ],
+    plugins: [nodePolyfills()],
   },
 ];
