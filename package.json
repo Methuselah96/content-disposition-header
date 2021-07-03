@@ -1,19 +1,40 @@
 {
-  "name": "content-disposition",
-  "description": "Create and parse Content-Disposition header",
+  "name": "content-disposition-header",
   "version": "0.5.3",
-  "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
-  "license": "MIT",
+  "description": "Create and parse Content-Disposition header",
   "keywords": [
     "content-disposition",
     "http",
     "rfc6266",
     "res"
   ],
-  "repository": "jshttp/content-disposition",
+  "homepage": "https://github.com/Methuselah96/content-disposition-header",
+  "bugs": {
+    "url" : "https://github.com/Methuselah96/content-disposition-header/issues",
+    "email" : "nbierema@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
+  "contributors": [
+    "Nathan Bierema <nbierema@gmail.com> (https://github.com/Methuselah96)"
+  ],
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "README.md",
+    "index.js",
+    "dist"
+  ],
   "main": "dist/content-disposition.cjs.js",
   "module": "dist/content-disposition.esm.js",
   "types": "dist/index.d.ts",
+  "repository": "github:Methuselah96/content-disposition-header",
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint .",
+    "test": "jest",
+    "test-cov": "jest --coverage"
+  },
   "dependencies": {},
   "devDependencies": {
     "eslint": "^7.30.0",
@@ -27,21 +48,5 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "tslib": "^2.3.0",
     "typescript": "^4.3.5"
-  },
-  "files": [
-    "LICENSE",
-    "HISTORY.md",
-    "README.md",
-    "index.js",
-    "dist"
-  ],
-  "engines": {
-    "node": ">= 0.6"
-  },
-  "scripts": {
-    "build": "rollup -c",
-    "lint": "eslint .",
-    "test": "jest",
-    "test-cov": "jest --coverage"
   }
 }
