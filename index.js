@@ -4,30 +4,30 @@
  * MIT Licensed
  */
 
-import { basename } from 'path'
-import { Buffer } from 'safe-buffer'
+import { basename } from 'path';
+import { Buffer } from 'safe-buffer';
 
 /**
  * RegExp to match non attr-char, *after* encodeURIComponent (i.e. not including "%")
  * @private
  */
 
-const ENCODE_URL_ATTR_CHAR_REGEXP = /[\x00-\x20"'()*,/:;<=>?@[\\\]{}\x7f]/g // eslint-disable-line no-control-regex
+const ENCODE_URL_ATTR_CHAR_REGEXP = /[\x00-\x20"'()*,/:;<=>?@[\\\]{}\x7f]/g; // eslint-disable-line no-control-regex
 
 /**
  * RegExp to match percent encoding escape.
  * @private
  */
 
-const HEX_ESCAPE_REGEXP = /%[0-9A-Fa-f]{2}/
-const HEX_ESCAPE_REPLACE_REGEXP = /%([0-9A-Fa-f]{2})/g
+const HEX_ESCAPE_REGEXP = /%[0-9A-Fa-f]{2}/;
+const HEX_ESCAPE_REPLACE_REGEXP = /%([0-9A-Fa-f]{2})/g;
 
 /**
  * RegExp to match non-latin1 characters.
  * @private
  */
 
-const NON_LATIN1_REGEXP = /[^\x20-\x7e\xa0-\xff]/g
+const NON_LATIN1_REGEXP = /[^\x20-\x7e\xa0-\xff]/g;
 
 /**
  * RegExp to match quoted-pair in RFC 2616
@@ -37,14 +37,14 @@ const NON_LATIN1_REGEXP = /[^\x20-\x7e\xa0-\xff]/g
  * @private
  */
 
-const QESC_REGEXP = /\\([\u0000-\u007f])/g // eslint-disable-line no-control-regex
+const QESC_REGEXP = /\\([\u0000-\u007f])/g; // eslint-disable-line no-control-regex
 
 /**
  * RegExp to match chars that must be quoted-pair in RFC 2616
  * @private
  */
 
-const QUOTE_REGEXP = /([\\"])/g
+const QUOTE_REGEXP = /([\\"])/g;
 
 /**
  * RegExp for various RFC 2616 grammar
@@ -71,9 +71,9 @@ const QUOTE_REGEXP = /([\\"])/g
  * @private
  */
 
-const PARAM_REGEXP = /;[\x09\x20]*([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*=[\x09\x20]*("(?:[\x20!\x23-\x5b\x5d-\x7e\x80-\xff]|\\[\x20-\x7e])*"|[!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*/g // eslint-disable-line no-control-regex
-const TEXT_REGEXP = /^[\x20-\x7e\x80-\xff]+$/
-const TOKEN_REGEXP = /^[!#$%&'*+.0-9A-Z^_`a-z|~-]+$/
+const PARAM_REGEXP = /;[\x09\x20]*([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*=[\x09\x20]*("(?:[\x20!\x23-\x5b\x5d-\x7e\x80-\xff]|\\[\x20-\x7e])*"|[!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*/g; // eslint-disable-line no-control-regex
+const TEXT_REGEXP = /^[\x20-\x7e\x80-\xff]+$/;
+const TOKEN_REGEXP = /^[!#$%&'*+.0-9A-Z^_`a-z|~-]+$/;
 
 /**
  * RegExp for various RFC 5987 grammar
@@ -97,7 +97,7 @@ const TOKEN_REGEXP = /^[!#$%&'*+.0-9A-Z^_`a-z|~-]+$/
  * @private
  */
 
-const EXT_VALUE_REGEXP = /^([A-Za-z0-9!#$%&+\-^_`{}~]+)'(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4,8}|)'((?:%[0-9A-Fa-f]{2}|[A-Za-z0-9!#$&+.^_`|~-])+)$/
+const EXT_VALUE_REGEXP = /^([A-Za-z0-9!#$%&+\-^_`{}~]+)'(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4,8}|)'((?:%[0-9A-Fa-f]{2}|[A-Za-z0-9!#$&+.^_`|~-])+)$/;
 
 /**
  * RegExp for various RFC 6266 grammar
@@ -113,7 +113,7 @@ const EXT_VALUE_REGEXP = /^([A-Za-z0-9!#$%&+\-^_`{}~]+)'(?:[A-Za-z]{2,3}(?:-[A-Z
  * @private
  */
 
-const DISPOSITION_TYPE_REGEXP = /^([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*(?:$|;)/ // eslint-disable-line no-control-regex
+const DISPOSITION_TYPE_REGEXP = /^([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*(?:$|;)/; // eslint-disable-line no-control-regex
 
 /**
  * Create an attachment Content-Disposition header.
@@ -126,17 +126,17 @@ const DISPOSITION_TYPE_REGEXP = /^([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*(?:$|;
  * @public
  */
 
-export function create (filename, options) {
-  const opts = options || {}
+export function create(filename, options) {
+  const opts = options || {};
 
   // get type
-  const type = opts.type || 'attachment'
+  const type = opts.type || 'attachment';
 
   // get parameters
-  const params = createparams(filename, opts.fallback)
+  const params = createparams(filename, opts.fallback);
 
   // format into string
-  return format(new ContentDisposition(type, params))
+  return format(new ContentDisposition(type, params));
 }
 
 /**
@@ -148,55 +148,55 @@ export function create (filename, options) {
  * @private
  */
 
-function createparams (filename, fallback) {
+function createparams(filename, fallback) {
   if (filename === undefined) {
-    return
+    return;
   }
 
-  const params = {}
+  const params = {};
 
   if (typeof filename !== 'string') {
-    throw new TypeError('filename must be a string')
+    throw new TypeError('filename must be a string');
   }
 
   // fallback defaults to true
   if (fallback === undefined) {
-    fallback = true
+    fallback = true;
   }
 
   if (typeof fallback !== 'string' && typeof fallback !== 'boolean') {
-    throw new TypeError('fallback must be a string or boolean')
+    throw new TypeError('fallback must be a string or boolean');
   }
 
   if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)) {
-    throw new TypeError('fallback must be ISO-8859-1 string')
+    throw new TypeError('fallback must be ISO-8859-1 string');
   }
 
   // restrict to file base name
-  const name = basename(filename)
+  const name = basename(filename);
 
   // determine if name is suitable for quoted string
-  const isQuotedString = TEXT_REGEXP.test(name)
+  const isQuotedString = TEXT_REGEXP.test(name);
 
   // generate fallback name
   const fallbackName = typeof fallback !== 'string'
     ? fallback && getlatin1(name)
-    : basename(fallback)
-  const hasFallback = typeof fallbackName === 'string' && fallbackName !== name
+    : basename(fallback);
+  const hasFallback = typeof fallbackName === 'string' && fallbackName !== name;
 
   // set extended filename parameter
   if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name)) {
-    params['filename*'] = name
+    params['filename*'] = name;
   }
 
   // set filename parameter
   if (isQuotedString || hasFallback) {
     params.filename = hasFallback
       ? fallbackName
-      : name
+      : name;
   }
 
-  return params
+  return params;
 }
 
 /**
@@ -209,34 +209,34 @@ function createparams (filename, fallback) {
  * @private
  */
 
-function format (obj) {
-  const parameters = obj.parameters
-  const type = obj.type
+function format(obj) {
+  const { parameters } = obj;
+  const { type } = obj;
 
   if (!type || typeof type !== 'string' || !TOKEN_REGEXP.test(type)) {
-    throw new TypeError('invalid type')
+    throw new TypeError('invalid type');
   }
 
   // start with normalized type
-  let string = String(type).toLowerCase()
+  let string = String(type).toLowerCase();
 
   // append parameters
   if (parameters && typeof parameters === 'object') {
-    let param
-    const params = Object.keys(parameters).sort()
+    let param;
+    const params = Object.keys(parameters).sort();
 
     for (let i = 0; i < params.length; i++) {
-      param = params[i]
+      param = params[i];
 
       const val = param.substr(-1) === '*'
         ? ustring(parameters[param])
-        : qstring(parameters[param])
+        : qstring(parameters[param]);
 
-      string += '; ' + param + '=' + val
+      string += `; ${param}=${val}`;
     }
   }
 
-  return string
+  return string;
 }
 
 /**
@@ -247,32 +247,32 @@ function format (obj) {
  * @private
  */
 
-function decodefield (str) {
-  const match = EXT_VALUE_REGEXP.exec(str)
+function decodefield(str) {
+  const match = EXT_VALUE_REGEXP.exec(str);
 
   if (!match) {
-    throw new TypeError('invalid extended field value')
+    throw new TypeError('invalid extended field value');
   }
 
-  const charset = match[1].toLowerCase()
-  const encoded = match[2]
-  let value
+  const charset = match[1].toLowerCase();
+  const encoded = match[2];
+  let value;
 
   // to binary string
-  const binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode)
+  const binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode);
 
   switch (charset) {
     case 'iso-8859-1':
-      value = getlatin1(binary)
-      break
+      value = getlatin1(binary);
+      break;
     case 'utf-8':
-      value = Buffer.from(binary, 'binary').toString('utf8')
-      break
+      value = Buffer.from(binary, 'binary').toString('utf8');
+      break;
     default:
-      throw new TypeError('unsupported charset in extended field')
+      throw new TypeError('unsupported charset in extended field');
   }
 
-  return value
+  return value;
 }
 
 /**
@@ -283,9 +283,9 @@ function decodefield (str) {
  * @private
  */
 
-function getlatin1 (val) {
+function getlatin1(val) {
   // simple Unicode -> ISO-8859-1 transformation
-  return String(val).replace(NON_LATIN1_REGEXP, '?')
+  return String(val).replace(NON_LATIN1_REGEXP, '?');
 }
 
 /**
@@ -296,76 +296,76 @@ function getlatin1 (val) {
  * @public
  */
 
-export function parse (string) {
+export function parse(string) {
   if (!string || typeof string !== 'string') {
-    throw new TypeError('argument string is required')
+    throw new TypeError('argument string is required');
   }
 
-  let match = DISPOSITION_TYPE_REGEXP.exec(string)
+  let match = DISPOSITION_TYPE_REGEXP.exec(string);
 
   if (!match) {
-    throw new TypeError('invalid type format')
+    throw new TypeError('invalid type format');
   }
 
   // normalize type
-  let index = match[0].length
-  const type = match[1].toLowerCase()
+  let index = match[0].length;
+  const type = match[1].toLowerCase();
 
-  let key
-  const names = []
-  const params = {}
-  let value
+  let key;
+  const names = [];
+  const params = {};
+  let value;
 
   // calculate index to start at
   index = PARAM_REGEXP.lastIndex = match[0].substr(-1) === ';'
     ? index - 1
-    : index
+    : index;
 
   // match parameters
   while ((match = PARAM_REGEXP.exec(string))) {
     if (match.index !== index) {
-      throw new TypeError('invalid parameter format')
+      throw new TypeError('invalid parameter format');
     }
 
-    index += match[0].length
-    key = match[1].toLowerCase()
-    value = match[2]
+    index += match[0].length;
+    key = match[1].toLowerCase();
+    value = match[2];
 
     if (names.indexOf(key) !== -1) {
-      throw new TypeError('invalid duplicate parameter')
+      throw new TypeError('invalid duplicate parameter');
     }
 
-    names.push(key)
+    names.push(key);
 
     if (key.indexOf('*') + 1 === key.length) {
       // decode extended value
-      key = key.slice(0, -1)
-      value = decodefield(value)
+      key = key.slice(0, -1);
+      value = decodefield(value);
 
       // overwrite existing value
-      params[key] = value
-      continue
+      params[key] = value;
+      continue;
     }
 
     if (typeof params[key] === 'string') {
-      continue
+      continue;
     }
 
     if (value[0] === '"') {
       // remove quotes and escapes
       value = value
         .substr(1, value.length - 2)
-        .replace(QESC_REGEXP, '$1')
+        .replace(QESC_REGEXP, '$1');
     }
 
-    params[key] = value
+    params[key] = value;
   }
 
   if (index !== -1 && index !== string.length) {
-    throw new TypeError('invalid parameter format')
+    throw new TypeError('invalid parameter format');
   }
 
-  return new ContentDisposition(type, params)
+  return new ContentDisposition(type, params);
 }
 
 /**
@@ -377,8 +377,8 @@ export function parse (string) {
  * @private
  */
 
-function pdecode (str, hex) {
-  return String.fromCharCode(parseInt(hex, 16))
+function pdecode(str, hex) {
+  return String.fromCharCode(parseInt(hex, 16));
 }
 
 /**
@@ -389,11 +389,11 @@ function pdecode (str, hex) {
  * @private
  */
 
-function pencode (char) {
-  return '%' + String(char)
+function pencode(char) {
+  return `%${String(char)
     .charCodeAt(0)
     .toString(16)
-    .toUpperCase()
+    .toUpperCase()}`;
 }
 
 /**
@@ -404,10 +404,10 @@ function pencode (char) {
  * @private
  */
 
-function qstring (val) {
-  const str = String(val)
+function qstring(val) {
+  const str = String(val);
 
-  return '"' + str.replace(QUOTE_REGEXP, '\\$1') + '"'
+  return `"${str.replace(QUOTE_REGEXP, '\\$1')}"`;
 }
 
 /**
@@ -418,14 +418,14 @@ function qstring (val) {
  * @private
  */
 
-function ustring (val) {
-  const str = String(val)
+function ustring(val) {
+  const str = String(val);
 
   // percent encode as UTF-8
   const encoded = encodeURIComponent(str)
-    .replace(ENCODE_URL_ATTR_CHAR_REGEXP, pencode)
+    .replace(ENCODE_URL_ATTR_CHAR_REGEXP, pencode);
 
-  return 'UTF-8\'\'' + encoded
+  return `UTF-8''${encoded}`;
 }
 
 /**
@@ -437,7 +437,7 @@ function ustring (val) {
  * @constructor
  */
 
-function ContentDisposition (type, parameters) {
-  this.type = type
-  this.parameters = parameters
+function ContentDisposition(type, parameters) {
+  this.type = type;
+  this.parameters = parameters;
 }
