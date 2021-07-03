@@ -13,9 +13,7 @@
   "repository": "jshttp/content-disposition",
   "main": "dist/content-disposition.cjs.js",
   "module": "dist/content-disposition.esm.js",
-  "dependencies": {
-    "path-browserify": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.1",
     "eslint": "^7.30.0",
