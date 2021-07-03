@@ -134,7 +134,7 @@ interface Options {
  * @public
  */
 
-export function create(filename: string, options?: Options): string {
+export function create(filename?: string, options?: Options): string {
   const opts = options || {};
 
   // get type
@@ -148,8 +148,7 @@ export function create(filename: string, options?: Options): string {
 }
 
 interface Parameters {
-  "filename*"?: string;
-  filename?: string;
+  [key: string]: string;
 }
 
 /**
@@ -162,7 +161,7 @@ interface Parameters {
  */
 
 function createparams(
-  filename: string,
+  filename: string | undefined,
   fallback: string | boolean | undefined
 ) {
   if (filename === undefined) {
@@ -243,9 +242,7 @@ function format(obj: ContentDisposition) {
   // append parameters
   if (parameters && typeof parameters === "object") {
     let param;
-    const params: readonly (keyof Parameters)[] = (
-      Object.keys(parameters) as (keyof Parameters)[]
-    ).sort();
+    const params = Object.keys(parameters).sort();
 
     for (let i = 0; i < params.length; i++) {
       param = params[i];
@@ -367,11 +364,11 @@ export function parse(string: string): ContentDisposition {
       value = decodefield(value);
 
       // overwrite existing value
-      params[key as keyof Parameters] = value;
+      params[key] = value;
       continue;
     }
 
-    if (typeof params[key as keyof Parameters] === "string") {
+    if (typeof params[key] === "string") {
       continue;
     }
 
@@ -380,7 +377,7 @@ export function parse(string: string): ContentDisposition {
       value = value.substr(1, value.length - 2).replace(QESC_REGEXP, "$1");
     }
 
-    params[key as keyof Parameters] = value;
+    params[key] = value;
   }
 
   if (index !== -1 && index !== string.length) {

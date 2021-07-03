@@ -1,4 +1,4 @@
-const contentDisposition = require("..");
+import * as contentDisposition from "../index";
 
 describe("contentDisposition.create()", () => {
   it("should create an attachment header", () => {
@@ -8,6 +8,7 @@ describe("contentDisposition.create()", () => {
 
 describe("contentDisposition.create(filename)", () => {
   it("should require a string", () => {
+    // @ts-expect-error
     expect(contentDisposition.create.bind(null, 42)).toThrow(
       /filename.*string/
     );
@@ -95,6 +96,7 @@ describe("contentDisposition.create(filename, options)", () => {
   describe('with "fallback" option', () => {
     it("should require a string or Boolean", () => {
       expect(
+        // @ts-expect-error
         contentDisposition.create.bind(null, "plans.pdf", { fallback: 42 })
       ).toThrow(/fallback.*string/);
     });
@@ -197,6 +199,7 @@ describe("contentDisposition.create(filename, options)", () => {
 
     it("should require a string", () => {
       expect(
+        // @ts-expect-error
         contentDisposition.create.bind(null, undefined, { type: 42 })
       ).toThrow(/invalid type/);
     });
@@ -237,6 +240,7 @@ describe("contentDisposition.parse(string)", () => {
   });
 
   it("should reject non-strings", () => {
+    // @ts-expect-error
     expect(contentDisposition.parse.bind(null, 42)).toThrow(
       /argument string.*required/
     );
