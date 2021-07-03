@@ -5,7 +5,7 @@
  */
 
 import { basename } from "path";
-import { Buffer } from "safe-buffer";
+import { Buffer } from "buffer";
 
 /**
  * RegExp to match non attr-char, *after* encodeURIComponent (i.e. not including "%")
@@ -118,6 +118,11 @@ const EXT_VALUE_REGEXP =
 const DISPOSITION_TYPE_REGEXP =
   /^([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*(?:$|;)/; // eslint-disable-line no-control-regex
 
+interface Options {
+  readonly type?: string;
+  readonly fallback?: string | boolean;
+}
+
 /**
  * Create an attachment Content-Disposition header.
  *
@@ -129,7 +134,7 @@ const DISPOSITION_TYPE_REGEXP =
  * @public
  */
 
-export function create(filename, options) {
+export function create(filename: string, options?: Options): string {
   const opts = options || {};
 
   // get type
@@ -139,7 +144,12 @@ export function create(filename, options) {
   const params = createparams(filename, opts.fallback);
 
   // format into string
-  return format(new ContentDisposition(type, params));
+  return format({ type, parameters: params });
+}
+
+interface Parameters {
+  'filename*'?: string;
+  filename?: string;
 }
 
 /**
@@ -151,12 +161,12 @@ export function create(filename, options) {
  * @private
  */
 
-function createparams(filename, fallback) {
+function createparams(filename: string, fallback: string | boolean | undefined) {
   if (filename === undefined) {
     return;
   }
 
-  const params = {};
+  const params: Parameters = {};
 
   if (typeof filename !== "string") {
     throw new TypeError("filename must be a string");
@@ -195,10 +205,15 @@ function createparams(filename, fallback) {
 
   // set filename parameter
   if (isQuotedString || hasFallback) {
-    params.filename = hasFallback ? fallbackName : name;
+    params.filename = hasFallback ? fallbackName as string : name;
   }
 
   return params;
+}
+
+interface ContentDisposition {
+  readonly parameters: Parameters | undefined;
+  readonly type: string;
 }
 
 /**
@@ -211,7 +226,7 @@ function createparams(filename, fallback) {
  * @private
  */
 
-function format(obj) {
+function format(obj: ContentDisposition) {
   const { parameters } = obj;
   const { type } = obj;
 
@@ -225,7 +240,7 @@ function format(obj) {
   // append parameters
   if (parameters && typeof parameters === "object") {
     let param;
-    const params = Object.keys(parameters).sort();
+    const params: readonly (keyof Parameters)[] = (Object.keys(parameters) as (keyof Parameters)[]).sort();
 
     for (let i = 0; i < params.length; i++) {
       param = params[i];
@@ -250,7 +265,7 @@ function format(obj) {
  * @private
  */
 
-function decodefield(str) {
+function decodefield(str: string) {
   const match = EXT_VALUE_REGEXP.exec(str);
 
   if (!match) {
@@ -286,7 +301,7 @@ function decodefield(str) {
  * @private
  */
 
-function getlatin1(val) {
+function getlatin1(val: string) {
   // simple Unicode -> ISO-8859-1 transformation
   return String(val).replace(NON_LATIN1_REGEXP, "?");
 }
@@ -299,7 +314,7 @@ function getlatin1(val) {
  * @public
  */
 
-export function parse(string) {
+export function parse(string: string): ContentDisposition {
   if (!string || typeof string !== "string") {
     throw new TypeError("argument string is required");
   }
@@ -316,7 +331,7 @@ export function parse(string) {
 
   let key;
   const names = [];
-  const params = {};
+  const params: Parameters = {};
   let value;
 
   // calculate index to start at
@@ -345,11 +360,11 @@ export function parse(string) {
       value = decodefield(value);
 
       // overwrite existing value
-      params[key] = value;
+      params[key as keyof Parameters] = value;
       continue;
     }
 
-    if (typeof params[key] === "string") {
+    if (typeof params[key as keyof Parameters] === "string") {
       continue;
     }
 
@@ -358,14 +373,14 @@ export function parse(string) {
       value = value.substr(1, value.length - 2).replace(QESC_REGEXP, "$1");
     }
 
-    params[key] = value;
+    params[key as keyof Parameters] = value;
   }
 
   if (index !== -1 && index !== string.length) {
     throw new TypeError("invalid parameter format");
   }
 
-  return new ContentDisposition(type, params);
+  return { type, parameters: params };
 }
 
 /**
@@ -377,7 +392,7 @@ export function parse(string) {
  * @private
  */
 
-function pdecode(str, hex) {
+function pdecode(str: string, hex: string) {
   return String.fromCharCode(parseInt(hex, 16));
 }
 
@@ -389,7 +404,7 @@ function pdecode(str, hex) {
  * @private
  */
 
-function pencode(char) {
+function pencode(char: string) {
   return `%${String(char).charCodeAt(0).toString(16).toUpperCase()}`;
 }
 
@@ -401,7 +416,7 @@ function pencode(char) {
  * @private
  */
 
-function qstring(val) {
+function qstring(val: string | undefined) {
   const str = String(val);
 
   return `"${str.replace(QUOTE_REGEXP, "\\$1")}"`;
@@ -415,7 +430,7 @@ function qstring(val) {
  * @private
  */
 
-function ustring(val) {
+function ustring(val: string | undefined) {
   const str = String(val);
 
   // percent encode as UTF-8
@@ -425,18 +440,4 @@ function ustring(val) {
   );
 
   return `UTF-8''${encoded}`;
-}
-
-/**
- * Class for parsed Content-Disposition header for v8 optimization
- *
- * @public
- * @param {string} type
- * @param {object} parameters
- * @constructor
- */
-
-function ContentDisposition(type, parameters) {
-  this.type = type;
-  this.parameters = parameters;
 }

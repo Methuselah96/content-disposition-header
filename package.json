@@ -13,13 +13,18 @@
   "repository": "jshttp/content-disposition",
   "main": "dist/content-disposition.cjs.js",
   "module": "dist/content-disposition.esm.js",
-  "browser": "dist/content-disposition.umd.js",
+  "browser": {
+    "./dist/content-disposition.cjs.js": "./dist/content-disposition.browser.cjs.js",
+    "./dist/content-disposition.esm.js": "./dist/content-disposition.browser.esm.js"
+  },
   "dependencies": {
-    "safe-buffer": "^5.2.1"
+    "buffer": "^6.0.3",
+    "path-browserify": "^1.0.1"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-commonjs": "^19.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-typescript": "^8.2.1",
     "deep-equal": "^2.0.5",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -28,7 +33,9 @@
     "jest": "^27.0.6",
     "prettier": "2.3.2",
     "rollup": "^2.52.7",
-    "rollup-plugin-polyfill-node": "^0.6.2"
+    "rollup-plugin-polyfill-node": "^0.6.2",
+    "tslib": "^2.3.0",
+    "typescript": "^4.3.5"
   },
   "files": [
     "LICENSE",

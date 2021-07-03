@@ -1,25 +1,28 @@
-import resolve from "@rollup/plugin-node-resolve";
+import alias from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
-import nodePolyfills from "rollup-plugin-polyfill-node";
-import pkg from "./package.json";
+import typescript from "@rollup/plugin-typescript";
 
 export default [
   {
-    input: "index.js",
-    output: {
-      name: "content-disposition",
-      file: pkg.browser,
-      format: "umd",
-    },
-    plugins: [nodePolyfills(), resolve(), commonjs()],
+    input: "index.ts",
+    external: ['path', 'buffer'],
+    output: [
+      { file: "dist/content-disposition.cjs.js", format: "cjs" },
+      { file: "dist/content-disposition.esm.js", format: "es" },
+    ],
+    plugins: [typescript()],
   },
   {
-    input: "index.js",
-    external: "safe-buffer",
+    input: "index.ts",
+    external: ['path', 'buffer'],
     output: [
-      { file: pkg.main, format: "cjs" },
-      { file: pkg.module, format: "es" },
+      { file: "dist/content-disposition.browser.cjs.js", format: "cjs" },
+      { file: "dist/content-disposition.browser.esm.js", format: "es" },
     ],
-    plugins: [nodePolyfills()],
+    plugins: [typescript(), alias({
+      entries: [
+        { find: 'path', replacement: 'path-browserify' }
+      ]
+    }), commonjs()],
   },
 ];
