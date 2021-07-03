@@ -1,4 +1,4 @@
-import typescript from "@rollup/plugin-typescript";
+import typescript from "rollup-plugin-typescript2";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import pkg from "./package.json";
 

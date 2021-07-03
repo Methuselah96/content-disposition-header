@@ -13,9 +13,9 @@
   "repository": "jshttp/content-disposition",
   "main": "dist/content-disposition.cjs.js",
   "module": "dist/content-disposition.esm.js",
+  "types": "dist/index.d.ts",
   "dependencies": {},
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.2.1",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -24,6 +24,7 @@
     "prettier": "2.3.2",
     "rollup": "^2.52.7",
     "rollup-plugin-polyfill-node": "^0.6.2",
+    "rollup-plugin-typescript2": "^0.30.0",
     "tslib": "^2.3.0",
     "typescript": "^4.3.5"
   },
