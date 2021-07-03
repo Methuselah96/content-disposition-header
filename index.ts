@@ -148,7 +148,7 @@ export function create(filename: string, options?: Options): string {
 }
 
 interface Parameters {
-  'filename*'?: string;
+  "filename*"?: string;
   filename?: string;
 }
 
@@ -161,7 +161,10 @@ interface Parameters {
  * @private
  */
 
-function createparams(filename: string, fallback: string | boolean | undefined) {
+function createparams(
+  filename: string,
+  fallback: string | boolean | undefined
+) {
   if (filename === undefined) {
     return;
   }
@@ -205,7 +208,7 @@ function createparams(filename: string, fallback: string | boolean | undefined) 
 
   // set filename parameter
   if (isQuotedString || hasFallback) {
-    params.filename = hasFallback ? fallbackName as string : name;
+    params.filename = hasFallback ? (fallbackName as string) : name;
   }
 
   return params;
@@ -240,7 +243,9 @@ function format(obj: ContentDisposition) {
   // append parameters
   if (parameters && typeof parameters === "object") {
     let param;
-    const params: readonly (keyof Parameters)[] = (Object.keys(parameters) as (keyof Parameters)[]).sort();
+    const params: readonly (keyof Parameters)[] = (
+      Object.keys(parameters) as (keyof Parameters)[]
+    ).sort();
 
     for (let i = 0; i < params.length; i++) {
       param = params[i];
