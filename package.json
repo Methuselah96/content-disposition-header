@@ -15,7 +15,7 @@
   "module": "dist/content-disposition.esm.js",
   "browser": "dist/content-disposition.umd.js",
   "dependencies": {
-    "safe-buffer": "5.1.2"
+    "safe-buffer": "^5.2.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.0",
