@@ -5,7 +5,6 @@
  */
 
 import { basename } from "path";
-import { Buffer } from "buffer";
 
 /**
  * RegExp to match non attr-char, *after* encodeURIComponent (i.e. not including "%")
@@ -281,15 +280,17 @@ function decodefield(str: string) {
   const encoded = match[2];
   let value;
 
-  // to binary string
-  const binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode);
-
   switch (charset) {
     case "iso-8859-1":
+      const binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode);
       value = getlatin1(binary);
       break;
     case "utf-8":
-      value = Buffer.from(binary, "binary").toString("utf8");
+      try {
+        value = decodeURIComponent(encoded);
+      } catch {
+        throw new TypeError("unsupported charset in extended field");
+      }
       break;
     default:
       throw new TypeError("unsupported charset in extended field");

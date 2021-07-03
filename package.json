@@ -13,17 +13,10 @@
   "repository": "jshttp/content-disposition",
   "main": "dist/content-disposition.cjs.js",
   "module": "dist/content-disposition.esm.js",
-  "browser": {
-    "./dist/content-disposition.cjs.js": "./dist/content-disposition.browser.cjs.js",
-    "./dist/content-disposition.esm.js": "./dist/content-disposition.browser.esm.js"
-  },
   "dependencies": {
-    "buffer": "^6.0.3",
     "path-browserify": "^1.0.1"
   },
   "devDependencies": {
-    "@rollup/plugin-alias": "^3.1.2",
-    "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -48,7 +41,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "lint": "eslint --plugin markdown --ext js,md .",
+    "lint": "eslint .",
     "test": "jest",
     "test-cov": "jest --coverage"
   }

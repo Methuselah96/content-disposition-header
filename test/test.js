@@ -443,11 +443,11 @@ describe("contentDisposition.parse(string)", () => {
         parameters: { filename: "€ rates.pdf" },
       });
       expect(
-        contentDisposition.parse("attachment; filename*=UTF-8''%E4%20rates.pdf")
-      ).toEqual({
-        type: "attachment",
-        parameters: { filename: "\ufffd rates.pdf" },
-      });
+        contentDisposition.parse.bind(
+          null,
+          "attachment; filename*=UTF-8''%E4%20rates.pdf"
+        )
+      ).toThrow(/unsupported charset/);
     });
 
     it("should parse ISO-8859-1 extended parameter value", () => {
@@ -1091,11 +1091,11 @@ describe("contentDisposition.parse(string)", () => {
 
       it("should parse \"attachment; filename*=utf-8''foo-%E4.html\"", () => {
         expect(
-          contentDisposition.parse("attachment; filename*=utf-8''foo-%E4.html")
-        ).toEqual({
-          type: "attachment",
-          parameters: { filename: "foo-\ufffd.html" },
-        });
+          contentDisposition.parse.bind(
+            null,
+            "attachment; filename*=utf-8''foo-%E4.html"
+          )
+        ).toThrow(/unsupported charset/);
       });
 
       it("should reject \"attachment; filename *=UTF-8''foo-%c3%a4.html\"", () => {
