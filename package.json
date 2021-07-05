@@ -1,6 +1,6 @@
 {
   "name": "content-disposition-header",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "content-disposition rewrite with browser and Node.js support",
   "keywords": [
     "content-disposition",
