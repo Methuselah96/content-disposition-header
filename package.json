@@ -1,9 +1,10 @@
 {
   "name": "content-disposition-header",
   "version": "0.5.3",
-  "description": "Create and parse Content-Disposition header",
+  "description": "content-disposition rewrite with browser and Node.js support",
   "keywords": [
     "content-disposition",
+    "browser",
     "http",
     "rfc6266",
     "res"
@@ -25,8 +26,12 @@
     "index.js",
     "dist"
   ],
-  "main": "dist/content-disposition.cjs.js",
-  "module": "dist/content-disposition.esm.js",
+  "main": "dist/content-disposition-header.cjs.js",
+  "module": "dist/content-disposition-header.esm.js",
+  "browser": {
+    "./dist/content-disposition-header.cjs.js": "./dist/content-disposition-header.browser.cjs.js",
+    "./dist/content-disposition-header.esm.js": "./dist/content-disposition-header.browser.esm.js"
+  },
   "types": "dist/index.d.ts",
   "repository": "github:Methuselah96/content-disposition-header",
   "scripts": {

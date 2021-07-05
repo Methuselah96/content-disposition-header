@@ -1,17 +1,24 @@
-# content-disposition
+# content-disposition-header
 
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
-[![Node.js Version][node-version-image]][node-version-url]
-[![Build Status][travis-image]][travis-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
+[![Build Status][github-actions-image]][github-actions-url]
+[![Test Coverage][codecov-image]][codecov-url]
+
+> [`content-disposition`](https://github.com/jshttp/content-disposition) rewrite with browser and Node.js support.
 
 Create and parse HTTP `Content-Disposition` header
 
 ## Installation
 
 ```sh
-$ npm install content-disposition
+$ npm install content-disposition-header
+```
+
+or
+
+```sh
+$ yarn add content-disposition-header
 ```
 
 ## API
@@ -19,10 +26,16 @@ $ npm install content-disposition
 <!-- eslint-disable no-unused-vars -->
 
 ```js
-var contentDisposition = require("content-disposition");
+var { create, parse } = require("content-disposition-header");
 ```
 
-### contentDisposition(filename, options)
+or
+
+```js
+import { create, parse } from "content-disposition-header";
+```
+
+### create(filename, options)
 
 Create an attachment `Content-Disposition` header value using the given file name,
 if supplied. The `filename` is optional and if no file name is desired, but you
@@ -68,7 +81,7 @@ Specifies the disposition type, defaults to `"attachment"`. This can also be
 `attachment`, but can convey additional information if both parties agree to
 it). The type is normalized to lower-case.
 
-### contentDisposition.parse(string)
+### parse(string)
 
 <!-- eslint-disable no-undef, no-unused-vars -->
 
@@ -138,13 +151,11 @@ $ npm test
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/content-disposition.svg
-[npm-url]: https://npmjs.org/package/content-disposition
-[node-version-image]: https://img.shields.io/node/v/content-disposition.svg
-[node-version-url]: https://nodejs.org/en/download
-[travis-image]: https://img.shields.io/travis/jshttp/content-disposition.svg
-[travis-url]: https://travis-ci.org/jshttp/content-disposition
-[coveralls-image]: https://img.shields.io/coveralls/jshttp/content-disposition.svg
-[coveralls-url]: https://coveralls.io/r/jshttp/content-disposition?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/content-disposition.svg
-[downloads-url]: https://npmjs.org/package/content-disposition
+[npm-image]: https://img.shields.io/npm/v/content-disposition-header.svg
+[npm-url]: https://npmjs.org/package/content-disposition-header
+[github-actions-image]: https://img.shields.io/github/workflow/status/Methuselah96/content-disposition-header/CI.svg
+[github-actions-url]: https://github.com/Methuselah96/content-disposition-header/actions/workflows/CI.yml
+[codecov-image]: https://img.shields.io/codecov/c/github/Methuselah96/content-disposition-header.svg
+[codecov-url]: https://app.codecov.io/gh/Methuselah96/content-disposition-header
+[downloads-image]: https://img.shields.io/npm/dm/content-disposition-header.svg
+[downloads-url]: https://npmjs.org/package/content-disposition-header

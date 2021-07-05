@@ -8,5 +8,5 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true
   },
-  "files": ["index.ts"]
+  "files": ["test.ts"]
 }
