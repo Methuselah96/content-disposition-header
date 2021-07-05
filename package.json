@@ -37,13 +37,17 @@
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint .",
+    "format": "prettier --write .",
+    "format-check": "prettier --check .",
     "test": "jest",
-    "test-cov": "jest --coverage"
+    "test-cov": "jest --coverage",
+    "test-ci": "jest --ci --coverage"
   },
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "codecov": "^3.8.2",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
