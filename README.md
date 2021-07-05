@@ -107,7 +107,7 @@ are shown for the string `'attachment; filename="EURO rates.txt"; filename*=UTF-
 ### Send a file for download
 
 ```js
-var contentDisposition = require("content-disposition");
+var contentDisposition = require("content-disposition-header");
 var destroy = require("destroy");
 var fs = require("fs");
 var http = require("http");
@@ -132,7 +132,7 @@ http.createServer(function onRequest(req, res) {
 ## Testing
 
 ```sh
-$ npm test
+$ yarn run test
 ```
 
 ## References
