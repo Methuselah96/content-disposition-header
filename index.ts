@@ -213,11 +213,6 @@ function createparams(
   return params;
 }
 
-interface ContentDisposition {
-  readonly parameters: Parameters | undefined;
-  readonly type: string;
-}
-
 /**
  * Format object to Content-Disposition header.
  *
@@ -228,7 +223,7 @@ interface ContentDisposition {
  * @private
  */
 
-function format(obj: ContentDisposition) {
+function format(obj: { type: string; parameters: Parameters | undefined }) {
   const { parameters } = obj;
   const { type } = obj;
 
@@ -307,6 +302,11 @@ function decodefield(str: string) {
 function getlatin1(val: string) {
   // simple Unicode -> ISO-8859-1 transformation
   return String(val).replace(NON_LATIN1_REGEXP, "?");
+}
+
+interface ContentDisposition {
+  readonly parameters: Parameters;
+  readonly type: string;
 }
 
 /**
