@@ -1,3 +1,7 @@
+# 0.6.0 / 2020-07-05
+
+- Rewrite in TypeScript with browser support
+
 # 0.5.3 / 2018-12-17
 
 - Use `safe-buffer` for improved Buffer API
