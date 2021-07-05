@@ -44,7 +44,7 @@ want to specify `options`, set `filename` to `undefined`.
 <!-- eslint-disable no-undef -->
 
 ```js
-res.setHeader("Content-Disposition", contentDisposition("∫ maths.pdf"));
+res.setHeader("Content-Disposition", create("∫ maths.pdf"));
 ```
 
 **note** HTTP headers are of the ISO-8859-1 character set. If you are writing this
@@ -53,7 +53,7 @@ the `'binary'` encoding in Node.js.
 
 #### Options
 
-`contentDisposition` accepts these properties in the options object.
+`create` accepts these properties in the options object.
 
 ##### fallback
 
@@ -86,7 +86,7 @@ it). The type is normalized to lower-case.
 <!-- eslint-disable no-undef, no-unused-vars -->
 
 ```js
-var disposition = contentDisposition.parse(
+var disposition = parse(
   "attachment; filename=\"EURO rates.txt\"; filename*=UTF-8''%e2%82%ac%20rates.txt"
 );
 ```
@@ -118,7 +118,7 @@ var filePath = "/path/to/public/plans.pdf";
 http.createServer(function onRequest(req, res) {
   // set headers
   res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", contentDisposition(filePath));
+  res.setHeader("Content-Disposition", contentDisposition.create(filePath));
 
   // send file
   var stream = fs.createReadStream(filePath);
