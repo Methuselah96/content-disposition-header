@@ -280,8 +280,7 @@ function decodefield(str: string) {
 
   switch (charset) {
     case "iso-8859-1":
-      const binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode);
-      value = getlatin1(binary);
+      value = getlatin1(encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode));
       break;
     case "utf-8":
       try {

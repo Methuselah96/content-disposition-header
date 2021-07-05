@@ -437,15 +437,7 @@ describe("contentDisposition.parse(string)", () => {
       });
     });
 
-    it("should parse UTF-8 extended parameter value", () => {
-      expect(
-        contentDisposition.parse(
-          "attachment; filename*=UTF-8''%E2%82%AC%20rates.pdf"
-        )
-      ).toEqual({
-        type: "attachment",
-        parameters: { filename: "€ rates.pdf" },
-      });
+    it("should fail to parse invalid encoded UTF-8", () => {
       expect(
         contentDisposition.parse.bind(
           null,
