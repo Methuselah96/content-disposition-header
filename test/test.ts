@@ -451,7 +451,7 @@ describe("contentDisposition.parse(string)", () => {
           null,
           "attachment; filename*=UTF-8''%E4%20rates.pdf"
         )
-      ).toThrow(/unsupported charset/);
+      ).toThrow(/invalid encoded utf-8/);
     });
 
     it("should parse ISO-8859-1 extended parameter value", () => {
@@ -1099,7 +1099,7 @@ describe("contentDisposition.parse(string)", () => {
             null,
             "attachment; filename*=utf-8''foo-%E4.html"
           )
-        ).toThrow(/unsupported charset/);
+        ).toThrow(/invalid encoded utf-8/);
       });
 
       it("should reject \"attachment; filename *=UTF-8''foo-%c3%a4.html\"", () => {

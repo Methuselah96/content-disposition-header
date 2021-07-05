@@ -287,7 +287,7 @@ function decodefield(str: string) {
       try {
         value = decodeURIComponent(encoded);
       } catch {
-        throw new TypeError("unsupported charset in extended field");
+        throw new TypeError("invalid encoded utf-8");
       }
       break;
     default:
