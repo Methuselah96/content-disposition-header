@@ -5,6 +5,6 @@
   "plugins": ["jest"],
   "extends": ["plugin:jest/recommended"],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./test/tsconfig.json"
   }
 }
